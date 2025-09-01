@@ -1,5 +1,6 @@
 use crate::{
     errors::CurverError,
+    events::CurveCreated,
     state::{config::GlobalConfigState, curve::BondingCurveState, global::Global, vault::SolVault},
 };
 use anchor_lang::prelude::*;
@@ -133,7 +134,7 @@ pub fn handler(ctx: Context<Create>, args: CreateArgs) -> Result<()> {
         collection_details: None,
     };
 
-    let create_metadata_ix = metadata_account.instruction(args);
+    let create_metadata_ix = metadata_account.instruction(args.clone());
 
     anchor_lang::solana_program::program::invoke(
         &create_metadata_ix,
@@ -173,6 +174,17 @@ pub fn handler(ctx: Context<Create>, args: CreateArgs) -> Result<()> {
         Some(ctx.accounts.bonding_curve.key()),
     )?;
 
-    msg!("Token created successfully");
+    emit!(CurveCreated {
+        mint: ctx.accounts.mint.key(),
+        creator: ctx.accounts.mint_authority.key(),
+        name: args.data.name.clone(),
+        symbol: args.data.symbol.clone(),
+        uri: args.data.uri.clone(),
+        initial_vtoken_reserve: ctx.accounts.bonding_curve.vtoken_reserve,
+        initial_vsol_reserve: ctx.accounts.bonding_curve.vsol_reserve,
+        total_supply: ctx.accounts.bonding_curve.total_supply,
+        timestamp: Clock::get()?.unix_timestamp,
+    });
+
     Ok(())
 }

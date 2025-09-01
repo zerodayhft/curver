@@ -12,7 +12,7 @@ curver = "4vWjZP6M7ixSa2bnWi3h54Dr7aJxcA8vnncHFugLLDrQ"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "./keys/owner.json"
 
 [scripts]

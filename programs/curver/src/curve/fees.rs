@@ -61,11 +61,11 @@ mod tests {
             Fees::calculate_fees(amount, protocol_fee_rate, creator_fee_rate, owner_fee_rate)
                 .unwrap();
 
-        assert_eq!(fees.protocol_fee, 5); // 0.5% от 1000
-        assert_eq!(fees.creator_fee, 20); // 2% от 1000
-        assert_eq!(fees.owner_fee, 10); // 1% от 1000
+        assert_eq!(fees.protocol_fee, 5); // 0.5% 1000
+        assert_eq!(fees.creator_fee, 20); // 2% 1000
+        assert_eq!(fees.owner_fee, 10); // 1% 1000
 
         let total_fee = fees.total().unwrap();
-        assert_eq!(total_fee, 35); // 3.5% от 1000
+        assert_eq!(total_fee, 35); // 3.5% 1000
     }
 }

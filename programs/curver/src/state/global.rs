@@ -3,10 +3,10 @@ use anchor_lang::prelude::*;
 
 #[account]
 pub struct Global {
-    pub protocol_owner: Pubkey, // Владелец протокола
-    pub token_creator: Pubkey,  // Создатель токена
-    pub token_owner: Pubkey,    // Текущий владелец токена
-    pub global_config: Pubkey,  // Конфигурация протокола
+    pub protocol_owner: Pubkey,
+    pub token_creator: Pubkey,
+    pub token_owner: Pubkey,
+    pub global_config: Pubkey,
 
     pub initial_virtual_token_reserves: u64,
     pub initial_virtual_sol_reserves: u64,

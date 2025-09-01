@@ -2,11 +2,11 @@ use anchor_lang::prelude::*;
 
 #[account]
 pub struct GlobalConfigState {
-    pub protocol_owner: Pubkey,            // Владелец протокола
-    pub whitelist_token_address: Pubkey,   // Адрес токена вайтлиста
-    pub protocol_fee_basis_points: u64,    // Комиссия протокола
-    pub creator_fee_basis_points: u64,     // Комиссия создателя токена
-    pub token_owner_fee_basis_points: u64, // Комиссия владельца токена
+    pub protocol_owner: Pubkey,
+    pub whitelist_token_address: Pubkey,
+    pub protocol_fee_basis_points: u64,
+    pub creator_fee_basis_points: u64,
+    pub token_owner_fee_basis_points: u64,
 }
 
 impl GlobalConfigState {

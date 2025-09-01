@@ -151,8 +151,8 @@ mod tests {
                 .unwrap();
 
         assert!(result.tokens_out > 0);
-        assert_eq!(result.protocol_fee, 1); // 0.5% от 100 (округление вниз)
-        assert_eq!(result.creator_fee, 2); // 2% от 100
-        assert_eq!(result.owner_fee, 1); // 1% от 100
+        assert_eq!(result.protocol_fee, 1); // 0.5% 100
+        assert_eq!(result.creator_fee, 2); // 2%  100
+        assert_eq!(result.owner_fee, 1); // 1%  100
     }
 }

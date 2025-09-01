@@ -15,11 +15,11 @@ impl BondingCurveState {
     pub const SEED: &'static [u8] = b"bonding_curve";
 
     pub const INITIAL_VTOKEN: u64 = 1_073_000_000;
-    pub const INITIAL_VSOL: u64 = 30_000_000; // 30 SOL в lamports
+    pub const INITIAL_VSOL: u64 = 30_000_000;
     pub const TOTAL_SUPPLY_DEFAULT: u64 = 1_000_000_000;
     pub const ALLOCATION_AT_MIGRATION_DEFAULT: u64 = 800_000_000;
 
-    pub const SIZE: usize = 8 + 8 + 32 + 8 + 8 + 8 + 1; // 73 bytes
+    pub const SIZE: usize = 8 + 8 + 32 + 8 + 8 + 8 + 1;
 
     pub fn with_defaults(vtoken_mint: Pubkey) -> Self {
         Self {
@@ -28,7 +28,7 @@ impl BondingCurveState {
             vsol_reserve: Self::INITIAL_VSOL,
             total_supply: Self::TOTAL_SUPPLY_DEFAULT,
             allocation_at_migration: Self::ALLOCATION_AT_MIGRATION_DEFAULT,
-            bump: 0, // Будет установлен позже
+            bump: 0,
         }
     }
 

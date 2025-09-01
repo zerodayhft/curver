@@ -1,6 +1,7 @@
 use crate::{
     curve::CurveCalculator,
     errors::CurverError,
+    events::TokensSell,
     state::{config::GlobalConfigState, curve::BondingCurveState, global::Global, vault::SolVault},
 };
 use anchor_lang::prelude::*;
@@ -173,13 +174,18 @@ pub fn sell(ctx: Context<Sell>, token_amount: u64) -> Result<()> {
         .checked_add(token_amount)
         .ok_or(CurverError::CalculationError)?;
 
-    msg!(
-        "Sell completed: {} tokens -> {} SOL, new reserves: SOL={}, tokens={}",
-        token_amount,
-        net_sol_out,
-        bonding_curve.vsol_reserve,
-        bonding_curve.vtoken_reserve
-    );
+    emit!(TokensSell {
+        mint: ctx.accounts.mint.key(),
+        seller: ctx.accounts.user.key(),
+        tokens_sold: token_amount,
+        sol_received: net_sol_out,
+        protocol_fee,
+        creator_fee,
+        vtoken_reserve_after: bonding_curve.vtoken_reserve,
+        vsol_reserve_after: bonding_curve.vsol_reserve,
+        current_price: bonding_curve.get_price() as u64,
+        timestamp: Clock::get()?.unix_timestamp,
+    });
 
     Ok(())
 }
