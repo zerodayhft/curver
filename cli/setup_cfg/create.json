@@ -1,0 +1,6 @@
+{
+    "name": "Test Token",
+    "symbol": "TEST",
+    "uri": "https://example.com/metadata.json",
+    "whitelistMint": "Hyvp4EQwYTsacPKScD2xdyQCezBVCqeorz6TnmqoBFUh"
+}

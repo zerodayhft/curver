@@ -27,7 +27,6 @@ pub struct TokensBuy {
     pub timestamp: i64,
 }
 
-/// Событие продажи токенов
 #[event]
 pub struct TokensSell {
     pub mint: Pubkey,

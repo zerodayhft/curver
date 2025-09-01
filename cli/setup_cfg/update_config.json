@@ -1,0 +1,6 @@
+{
+    "whitelistTokenAddress": "Hyvp4EQwYTsacPKScD2xdyQCezBVCqeorz6TnmqoBFUh",
+    "feeRecipientBasisPoints": 100,
+    "creatorFeeBasisPoints": 200,
+    "protocolFeeBasisPoints": 50
+}
