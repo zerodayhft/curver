@@ -7,6 +7,7 @@ import { initialize } from "./initialize";
 import { create } from "./create";
 import { updateConfig } from "./update_config";
 import { buy } from "./buy";
+import { sell } from "./sell";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -307,7 +308,59 @@ async function buyCommand() {
     }
 }
 
-// Main CLI logic
+// Sell command
+async function sellCommand() {
+    const args = process.argv.slice(3); // Skip 'ts-node', 'cli.ts', 'sell'
+
+    if (args.length < 2) {
+        console.log("Usage: ts-node cli.ts sell <mint_address> <token_amount>");
+        console.log("Example: ts-node cli.ts sell 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM 1000000");
+        console.log("\nДля получения списка доступных токенов используйте: ts-node cli.ts list");
+        return;
+    }
+
+    const mintAddress = args[0];
+    const amount = parseFloat(args[1]);
+
+    if (isNaN(amount) || amount <= 0) {
+        console.error("Amount must be a positive number");
+        return;
+    }
+
+    try {
+        console.log(`Продажа ${amount} токенов для mint: ${mintAddress}`);
+
+        const { program, owner } = setupProgram();
+        const mint = new PublicKey(mintAddress);
+
+        // Проверяем, что mint существует и является токеном
+        const mintInfo = await program.provider.connection.getAccountInfo(mint);
+        if (!mintInfo) {
+            console.error("Ошибка: Mint аккаунт не найден");
+            console.log("Используйте команду 'list' для получения списка доступных токенов");
+            return;
+        }
+
+        if (!mintInfo.owner.equals(new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"))) {
+            console.error("Ошибка: Указанный адрес не является токеном SPL");
+            console.log("Используйте команду 'list' для получения списка доступных токенов");
+            return;
+        }
+
+        const amountBN = new anchor.BN(amount); // Token amount (not SOL)
+
+        const tx = await sell(program, owner, mint, amountBN);
+        console.log(`Продажа успешна! Транзакция: ${tx}`);
+    } catch (error) {
+        console.error("Ошибка при продаже:", error);
+        if (error.toString().includes("У пользователя нет token account")) {
+            console.log("\nСовет: Сначала купите токены, чтобы их можно было продать.");
+        }
+        process.exit(1);
+    }
+}
+
+// Main CLI function
 async function main() {
     const args = process.argv.slice(2);
 
@@ -322,12 +375,14 @@ async function main() {
         console.log("  update-config                 Update program configuration using setup_cfg/update_config.json");
         console.log("  list                          List available tokens");
         console.log("  buy <mint> <amount>           Buy tokens with SOL");
+        console.log("  sell <mint> <amount>          Sell tokens for SOL");
         console.log("  help                          Show this help message");
         console.log("");
         console.log("Examples:");
         console.log("  ts-node cli.ts create");
         console.log("  ts-node cli.ts list");
-        console.log("  ts-node cli.ts buy 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM 0.1")
+        console.log("  ts-node cli.ts buy 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM 0.1");
+        console.log("  ts-node cli.ts sell 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM 1000000");
         return;
     }
 
@@ -349,9 +404,12 @@ async function main() {
         case "buy":
             await buyCommand();
             break;
+        case "sell":
+            await sellCommand();
+            break;
         default:
             console.log(`Unknown command: ${command}`);
-            console.log("Available commands: init, create, update-config, list, buy");
+            console.log("Available commands: init, create, update-config, list, buy, sell");
             break;
     }
 }
