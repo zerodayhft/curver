@@ -12,7 +12,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 // Program ID from Anchor.toml
-const PROGRAM_ID = new PublicKey("4vWjZP6M7ixSa2bnWi3h54Dr7aJxcA8vnncHFugLLDrQ");
+const PROGRAM_ID = new PublicKey("Bw42ZPFART722nwPfVk5egiECYRxBCTqo1LpRtAA5mxr");
 
 // Load owner keypair
 function loadKeypair(filepath: string): Keypair {
@@ -53,7 +53,6 @@ async function createCommand() {
 
         // Generate new mint keypair
         const mintKeypair = Keypair.generate();
-        let whitelistMint = new PublicKey(config.whitelistMint);
 
         console.log(`Owner: ${owner.publicKey.toString()}`);
         console.log(`Program ID: ${PROGRAM_ID.toString()}`);
@@ -86,62 +85,10 @@ async function createCommand() {
         await program.provider.sendAndConfirm(createMintTx, [mintKeypair]);
         console.log("Mint account created and initialized");
 
-
-        // Create whitelist mint from keypair file
-        const whitelistKeypairPath = "./cli/wl/whitelist-token.json";
-        const whitelistKeypairData = JSON.parse(fs.readFileSync(whitelistKeypairPath, "utf8"));
-        const whitelistKeypair = Keypair.fromSecretKey(new Uint8Array(whitelistKeypairData));
-
-        // Check if mint already exists
-        const mintInfo = await connection.getAccountInfo(whitelistKeypair.publicKey);
-
-        if (!mintInfo) {
-            // Create the mint
-            const { createMint } = await import("@solana/spl-token");
-
-            const createdMint = await createMint(
-                connection,
-                owner,
-                owner.publicKey, // mint authority
-                null, // freeze authority
-                0, // decimals (0 for NFT-like whitelist token)
-                whitelistKeypair
-            );
-            console.log("Whitelist mint created:", createdMint.toString());
-        } else {
-            console.log("Whitelist mint already exists:", whitelistKeypair.publicKey.toString());
-        }
-
-        // Create ATA and mint tokens
-        const { createAssociatedTokenAccount, mintTo } = await import("@solana/spl-token");
-
-        const whitelistTokenAccount = await createAssociatedTokenAccount(
-            connection,
-            owner,
-            whitelistKeypair.publicKey,
-            owner.publicKey
-        );
-        console.log("Whitelist token account created:", whitelistTokenAccount.toString());
-
-        // Mint 1 whitelist token to the creator (required for create instruction)
-        await mintTo(
-            connection,
-            owner,
-            whitelistKeypair.publicKey,
-            whitelistTokenAccount,
-            owner,
-            1
-        );
-        console.log("Whitelist token minted to creator");
-
-        // Update whitelistMint to use the created mint
-        whitelistMint = whitelistKeypair.publicKey;
-
         const result = await create(
             program,
             owner,
             mintKeypair.publicKey,
-            whitelistMint,
             {
                 name: config.name,
                 symbol: config.symbol,
@@ -171,11 +118,8 @@ async function updateConfigCommand() {
         const configPath = path.join(__dirname, "setup_cfg", "update_config.json");
         const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
-        const whitelistTokenAddress = new PublicKey(config.whitelistTokenAddress);
-
         console.log(`Authority: ${owner.publicKey.toString()}`);
         console.log(`Program ID: ${PROGRAM_ID.toString()}`);
-        console.log(`New Whitelist Token: ${whitelistTokenAddress.toString()}`);
         console.log(`Fee Recipient Basis Points: ${config.feeRecipientBasisPoints}`);
         console.log(`Creator Fee Basis Points: ${config.creatorFeeBasisPoints}`);
         console.log(`Protocol Fee Basis Points: ${config.protocolFeeBasisPoints}`);
@@ -183,7 +127,6 @@ async function updateConfigCommand() {
         const result = await updateConfig(
             program,
             owner,
-            whitelistTokenAddress,
             config.feeRecipientBasisPoints,
             config.creatorFeeBasisPoints,
             config.protocolFeeBasisPoints

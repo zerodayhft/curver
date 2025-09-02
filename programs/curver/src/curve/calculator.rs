@@ -140,7 +140,6 @@ mod tests {
 
         let config = GlobalConfigState {
             protocol_owner: Pubkey::default(),
-            whitelist_token_address: Pubkey::default(),
             protocol_fee_basis_points: 50,     // 0.5%
             creator_fee_basis_points: 200,     // 2%
             token_owner_fee_basis_points: 100, // 1%

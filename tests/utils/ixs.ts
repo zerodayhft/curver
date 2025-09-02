@@ -52,7 +52,6 @@ export async function create(
     program: Program<Curver>,
     mintAuthority: Signer,
     mint: PublicKey,
-    whitelistMint: PublicKey,
     args: {
         name: string,
         symbol: string,
@@ -75,10 +74,7 @@ export async function create(
         program.programId
     );
 
-    const whitelistTokenAccount = getAssociatedTokenAddressSync(
-        whitelistMint,
-        mintAuthority.publicKey
-    );
+
 
     const [associatedBondingCurve] = PublicKey.findProgramAddressSync(
         [bondingCurve.toBuffer(), Buffer.from([/* seed bytes */]), mint.toBuffer()],
@@ -93,8 +89,7 @@ export async function create(
             mint,
             mintAuthority: mintAuthority.publicKey,
             globalConfig,
-            whitelistMint,
-            whitelistTokenAccount,
+
             bondingCurve,
             associatedBondingCurve,
             global,

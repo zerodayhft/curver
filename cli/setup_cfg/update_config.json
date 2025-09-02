@@ -1,5 +1,4 @@
 {
-    "whitelistTokenAddress": "So11111111111111111111111111111111111111112",
     "feeRecipientBasisPoints": 100,
     "creatorFeeBasisPoints": 200,
     "protocolFeeBasisPoints": 50

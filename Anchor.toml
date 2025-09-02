@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-curver = "4vWjZP6M7ixSa2bnWi3h54Dr7aJxcA8vnncHFugLLDrQ"
+curver = "Bw42ZPFART722nwPfVk5egiECYRxBCTqo1LpRtAA5mxr"
 
 [registry]
 url = "https://api.apr.dev"

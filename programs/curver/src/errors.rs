@@ -12,8 +12,7 @@ pub enum CurverError {
     InvalidAuthority,
     #[msg("Invalid config addr")]
     InvalidConfig,
-    #[msg("Invalid whitelist token")]
-    InvalidWhitelistToken,
+
     #[msg("Invalid amount for swap")]
     InvalidAmount,
     #[msg("Insufficient funds on curve")]

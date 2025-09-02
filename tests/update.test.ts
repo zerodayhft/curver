@@ -45,14 +45,12 @@ describe("Curver Update Tests", () => {
     });
 
     it("Should update config with new parameters", async () => {
-        const whitelistToken = anchor.web3.Keypair.generate();
         const newProtocolFee = new BN(100); // 1%
         const newCreatorFee = new BN(300); // 3%
         const newOwnerFee = new BN(150); // 1.5%
 
         const tx = await program.methods
             .updateConfig(
-                whitelistToken.publicKey,
                 newOwnerFee,
                 newCreatorFee,
                 newProtocolFee
@@ -70,10 +68,6 @@ describe("Curver Update Tests", () => {
             globalConfigPDA
         );
 
-        assert.ok(
-            globalConfig.whitelistTokenAddress.equals(whitelistToken.publicKey),
-            "Invalid whitelist token update"
-        );
         assert.ok(
             globalConfig.protocolFeeBasisPoints.eq(newProtocolFee),
             "Invalid protocol fee update"
@@ -114,7 +108,6 @@ describe("Curver Update Tests", () => {
         try {
             await program.methods
                 .updateConfig(
-                    anchor.web3.Keypair.generate().publicKey,
                     new BN(100),
                     new BN(200),
                     new BN(50)
@@ -135,7 +128,6 @@ describe("Curver Update Tests", () => {
         try {
             await program.methods
                 .updateConfig(
-                    anchor.web3.Keypair.generate().publicKey,
                     new BN(10001), // > 100%
                     new BN(200),
                     new BN(50)

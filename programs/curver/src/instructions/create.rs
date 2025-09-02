@@ -24,14 +24,6 @@ pub struct Create<'info> {
     )]
     pub global_config: Account<'info, GlobalConfigState>,
 
-    pub whitelist_mint: Account<'info, Mint>,
-
-    #[account(
-        associated_token::mint = whitelist_mint,
-        associated_token::authority = mint_authority
-    )]
-    pub whitelist_token_account: Account<'info, TokenAccount>,
-
     #[account(
         init,
         payer = mint_authority,
@@ -87,16 +79,6 @@ pub struct CreateArgs {
 }
 
 pub fn handler(ctx: Context<Create>, args: CreateArgs) -> Result<()> {
-    require!(
-        ctx.accounts.whitelist_token_account.amount > 0,
-        CurverError::InvalidWhitelistToken
-    );
-
-    require!(
-        ctx.accounts.whitelist_mint.key() == ctx.accounts.global_config.whitelist_token_address,
-        CurverError::InvalidWhitelistToken
-    );
-
     let global = &mut ctx.accounts.global;
     global.token_creator = ctx.accounts.mint_authority.key();
     global.token_owner = ctx.accounts.mint_authority.key();

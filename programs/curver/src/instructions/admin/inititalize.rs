@@ -32,7 +32,6 @@ pub fn handler(ctx: Context<Initialize>) -> Result<()> {
     let global = &mut ctx.accounts.global;
 
     global_config.protocol_owner = ctx.accounts.authority.key();
-    global_config.whitelist_token_address = Pubkey::default();
     global_config.protocol_fee_basis_points = GlobalConfigState::DEFAULT_PROTOCOL_FEE;
     global_config.creator_fee_basis_points = GlobalConfigState::DEFAULT_CREATOR_FEE;
     global_config.token_owner_fee_basis_points = GlobalConfigState::DEFAULT_OWNER_FEE;

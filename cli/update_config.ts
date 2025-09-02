@@ -14,7 +14,6 @@ import { Curver } from "./idl/curver";
 export async function updateConfig(
     program: Program<Curver>,
     authority: Signer,
-    whitelistTokenAddress: PublicKey,
     feeRecipientBasisPoints: number = 100,
     creatorFeeBasisPoints: number = 200,
     protocolFeeBasisPoints: number = 50,
@@ -32,7 +31,6 @@ export async function updateConfig(
 
     const tx = await program.methods
         .updateConfig(
-            whitelistTokenAddress,
             new BN(feeRecipientBasisPoints),
             new BN(creatorFeeBasisPoints),
             new BN(protocolFeeBasisPoints)

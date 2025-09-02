@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/curver.json`.
  */
 export type Curver = {
-    "address": "4vWjZP6M7ixSa2bnWi3h54Dr7aJxcA8vnncHFugLLDrQ",
+    "address": "Bw42ZPFART722nwPfVk5egiECYRxBCTqo1LpRtAA5mxr",
     "metadata": {
         "name": "curver",
         "version": "0.1.0",
@@ -309,98 +309,6 @@ export type Curver = {
                                 ]
                             }
                         ]
-                    }
-                },
-                {
-                    "name": "whitelistMint"
-                },
-                {
-                    "name": "whitelistTokenAccount",
-                    "pda": {
-                        "seeds": [
-                            {
-                                "kind": "account",
-                                "path": "mintAuthority"
-                            },
-                            {
-                                "kind": "const",
-                                "value": [
-                                    6,
-                                    221,
-                                    246,
-                                    225,
-                                    215,
-                                    101,
-                                    161,
-                                    147,
-                                    217,
-                                    203,
-                                    225,
-                                    70,
-                                    206,
-                                    235,
-                                    121,
-                                    172,
-                                    28,
-                                    180,
-                                    133,
-                                    237,
-                                    95,
-                                    91,
-                                    55,
-                                    145,
-                                    58,
-                                    140,
-                                    245,
-                                    133,
-                                    126,
-                                    255,
-                                    0,
-                                    169
-                                ]
-                            },
-                            {
-                                "kind": "account",
-                                "path": "whitelistMint"
-                            }
-                        ],
-                        "program": {
-                            "kind": "const",
-                            "value": [
-                                140,
-                                151,
-                                37,
-                                143,
-                                78,
-                                36,
-                                137,
-                                241,
-                                187,
-                                61,
-                                16,
-                                41,
-                                20,
-                                142,
-                                13,
-                                131,
-                                11,
-                                90,
-                                19,
-                                153,
-                                218,
-                                255,
-                                16,
-                                132,
-                                4,
-                                142,
-                                123,
-                                216,
-                                219,
-                                233,
-                                248,
-                                89
-                            ]
-                        }
                     }
                 },
                 {
@@ -992,10 +900,6 @@ export type Curver = {
             ],
             "args": [
                 {
-                    "name": "whitelistTokenAddress",
-                    "type": "pubkey"
-                },
-                {
                     "name": "feeRecipientBasisPoints",
                     "type": "u64"
                 },
@@ -1193,41 +1097,36 @@ export type Curver = {
         },
         {
             "code": 6005,
-            "name": "invalidWhitelistToken",
-            "msg": "Invalid whitelist token"
-        },
-        {
-            "code": 6006,
             "name": "invalidAmount",
             "msg": "Invalid amount for swap"
         },
         {
-            "code": 6007,
+            "code": 6006,
             "name": "insufficientFunds",
             "msg": "Insufficient funds on curve"
         },
         {
-            "code": 6008,
+            "code": 6007,
             "name": "calculationError",
             "msg": "Calculation error"
         },
         {
-            "code": 6009,
+            "code": 6008,
             "name": "insufficientLiquidity",
             "msg": "Insufficient liquidity"
         },
         {
-            "code": 6010,
+            "code": 6009,
             "name": "insufficientTokens",
             "msg": "Insufficient tokens"
         },
         {
-            "code": 6011,
+            "code": 6010,
             "name": "invalidProtocolOwner",
             "msg": "Invalid protocol owner address"
         },
         {
-            "code": 6012,
+            "code": 6011,
             "name": "invalidCreatorAddress",
             "msg": "Invalid creator address"
         }
@@ -1379,10 +1278,6 @@ export type Curver = {
                         "type": "pubkey"
                     },
                     {
-                        "name": "whitelistTokenAddress",
-                        "type": "pubkey"
-                    },
-                    {
                         "name": "protocolFeeBasisPoints",
                         "type": "u64"
                     },
@@ -1526,9 +1421,6 @@ export type Curver = {
         },
         {
             "name": "tokensSell",
-            "docs": [
-                "Событие продажи токенов"
-            ],
             "type": {
                 "kind": "struct",
                 "fields": [

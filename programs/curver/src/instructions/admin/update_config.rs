@@ -24,14 +24,12 @@ pub struct UpdateConfig<'info> {
 
 pub fn handler(
     ctx: Context<UpdateConfig>,
-    whitelist_token_address: Pubkey,
     fee_recipient_basis_points: u64,
     creator_fee_basis_points: u64,
     protocol_fee_basis_points: u64,
 ) -> Result<()> {
     let global_config = &mut ctx.accounts.global_config;
 
-    global_config.whitelist_token_address = whitelist_token_address;
     global_config.protocol_fee_basis_points = protocol_fee_basis_points;
     global_config.creator_fee_basis_points = creator_fee_basis_points;
     global_config.token_owner_fee_basis_points = fee_recipient_basis_points;

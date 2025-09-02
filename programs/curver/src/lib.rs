@@ -13,7 +13,7 @@ use instructions::{
     sell::*,
 };
 
-declare_id!("4vWjZP6M7ixSa2bnWi3h54Dr7aJxcA8vnncHFugLLDrQ");
+declare_id!("Bw42ZPFART722nwPfVk5egiECYRxBCTqo1LpRtAA5mxr");
 
 #[program]
 pub mod curver {
@@ -29,14 +29,12 @@ pub mod curver {
 
     pub fn update_config(
         ctx: Context<UpdateConfig>,
-        whitelist_token_address: Pubkey,
         fee_recipient_basis_points: u64,
         creator_fee_basis_points: u64,
         protocol_fee_basis_points: u64,
     ) -> Result<()> {
         instructions::admin::update_config::handler(
             ctx,
-            whitelist_token_address,
             fee_recipient_basis_points,
             creator_fee_basis_points,
             protocol_fee_basis_points,
